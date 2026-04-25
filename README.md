@@ -12,48 +12,52 @@ We compare:
 ---
 
 ## Key Idea
-- Baseline: each agent learns with local value \( V(o_i) \)  
+- Baseline: each agent learns with local value \( V(o_i) \)  
 - MAPPO: uses joint value \( V(o_1, o_2, o_3) \) → improved coordination
+
 
 ---
 
 ## Files
 
 ### Training
-- `train_hopper.py` — PPO on Hopper  
-- `train_simple_spread.py` — baseline + MAPPO training  
+- `train_hopper.py` — PPO on Hopper  
+- `train_simple_spread.py` — baseline + MAPPO training  
 
 ### Models
-- `networks.py` — actor + critics  
-- `buffer.py` — rollout storage  
-- `utils.py` — GAE + helpers  
+- `networks.py` — actor + critics  
+- `buffer.py` — rollout storage  
+- `utils.py` — GAE + helpers  
 
 ### Evaluation / Plots
-- `eval_hopper.py`, `eval_simple_spread.py`  
-- `plot_hopper.py` — Hopper curves  
-- `plot_results_multi_seeds.py` — return comparison  
-- `plot_collisions_mappo_baseline.py` — collision comparison  
+- `eval_hopper.py`, `eval_simple_spread.py`  
+- `plot_hopper.py` — Hopper curves  
+- `plot_results_multi_seeds.py` — return comparison  
+- `plot_collisions_mappo_baseline.py` — collision comparison  
 
 ### Visualization
-- `simple_spread_gif.py` — rollout GIF  
-- `simple_spread_trajectory.py` — trajectory animation  
+- `simple_spread_gif.py` — rollout GIF  
+- `simple_spread_trajectory.py` — trajectory animation  
 
 ---
+## Setup
 
-## Results
-
-Metrics:
-- **Return** (performance)
-- **Collision count** (coordination)
-
-Across **3 seeds (0,1,2)**.
-
-**Findings:**
-- MAPPO ≈ similar returns  
-- MAPPO ↓ fewer collisions → better coordination  
-
+### 1. Create environment
+```bash
+conda create -n ppo python=3.10 -y
+conda activate ppo
+```
+### 2. Install dependencies
+```bash
+pip install torch numpy matplotlib
+pip install gymnasium
+pip install stable-baselines3
+pip install pettingzoo mpe2
+pip install imageio pillow
+pip install tensorboard
+pip install "gymnasium[mujoco]"
+```
 ---
-
 ## How to Run
 
 ```bash
@@ -61,3 +65,18 @@ python train_hopper.py
 python train_simple_spread.py
 python plot_results_multi_seeds.py
 python plot_collisions_mappo_baseline.py
+
+---
+
+## Notes
+- Training runs on CPU
+- PPO uses standard hyperparameters:
+  - lr = 3e-4
+  - gamma = 0.99
+  - lambda = 0.95
+  - clip = 0.2
+
+---
+
+## Reference
+Schulman et al., *Proximal Policy Optimization Algorithms*, 2017
